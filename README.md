@@ -1,0 +1,1 @@
+Dataset use : Comprehensive Deepfake Detection Dataset (contains 110,694 frames from 480 videos, including both deepfake and real frames).
