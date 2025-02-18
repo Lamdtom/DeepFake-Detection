@@ -31,9 +31,12 @@ def parse_args():
 accumulation_steps = 2  # Accumulate gradients over 4 batches
 
 def train_model(model, train_loader, criterion, optimizer, num_epochs, device):
+    best_val_acc = 0.0
     model.train()
     for epoch in range(num_epochs):
         running_loss = 0.0
+        correct_preds = 0
+        total_preds = 0
         optimizer.zero_grad() 
         for i, (images, labels) in enumerate(train_loader):
             images, labels = images.to(device), labels.to(device)
@@ -59,8 +62,23 @@ def train_model(model, train_loader, criterion, optimizer, num_epochs, device):
         print(f"Epoch {epoch+1}/{num_epochs}, Training Loss: {running_loss/len(train_loader):.4f}, Training Accuracy: {train_accuracy:.2f}%")
 
         #Validate model
-        if(epoch%5 == 0):
-            validate_model(model, val_loader, criterion, device)
+        val_accuracy = validate_model(model, val_loader, criterion, device)
+
+        # Save a checkpoint every 5 epochs
+        checkpoint_dir = "./checkpoints"
+        os.makedirs(checkpoint_dir, exist_ok=True)
+        checkpoint_path = os.path.join(checkpoint_dir, "model_checkpoint.pth")
+        if epoch % 5 == 0 or val_accuracy > best_val_acc:
+            best_val_acc = max(best_val_acc, val_accuracy)  # Update best validation accuracy
+            checkpoint = {
+                'epoch': epoch,
+                'model_state_dict': model.state_dict(),
+                'optimizer_state_dict': optimizer.state_dict(),
+                'best_val_acc': best_val_acc
+            }
+            torch.save(checkpoint, checkpoint_path)
+            print(f"Checkpoint saved at epoch {epoch} with validation accuracy {val_accuracy:.2f}%")
+
 
 def validate_model(model, val_loader, criterion, device):
     model.eval()
@@ -82,6 +100,7 @@ def validate_model(model, val_loader, criterion, device):
     val_loss /= len(val_loader)
     accuracy = 100 * correct / total
     print(f'Validation Loss: {val_loss:.4f}, Accuracy: {accuracy:.2f}%')
+    return accuracy
 
 def test_model(model, test_loader, device):
     model.eval()
