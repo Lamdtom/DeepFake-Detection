@@ -46,7 +46,7 @@ pip install -r requirements.txt
 ## 🧪 Training
 
 ```python
-python train.py --model EfficientNetB4 --epochs 10 --batch_size 32
+python train.py --train_dataset ./dataset/train --val_dataset ./dataset/val
 ```
 
 Model checkpoints, logs, and metrics are saved to the `outputs/` directory.
