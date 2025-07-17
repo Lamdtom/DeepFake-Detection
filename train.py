@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--test_dataset', type=str, default='./dataset/test', help='Path to the test dataset')
     return parser.parse_args()
 
-accumulation_steps = 2  # Accumulate gradients over 4 batches
+accumulation_steps = 2  # Accumulate gradients over 2   batches
 
 def train_model(model, train_loader, criterion, optimizer, num_epochs, device):
     best_val_acc = 0.0
@@ -52,7 +52,7 @@ def train_model(model, train_loader, criterion, optimizer, num_epochs, device):
 
             running_loss += loss.item()
 
-             # Calculate training accuracy
+             # Calculate training accuracygit 
             _, predicted = torch.max(outputs, 1)
             correct_preds += (predicted == labels).sum().item()
             total_preds += labels.size(0)
