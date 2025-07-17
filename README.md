@@ -1,7 +1,3 @@
-Here's a professional and clear `README.md` template for your Deepfake Detection project using EfficientNetB4 on the **Comprehensive Deepfake Detection Dataset**. It includes sections for project overview, setup, results, and future work:
-
----
-
 # Deepfake Detection using EfficientNetB4
 
 This project implements a deepfake detection pipeline using the **EfficientNetB4** convolutional neural network architecture on the [Comprehensive Deepfake Detection Dataset (CDDF)](https://www.kaggle.com/datasets/cabani/efficientnetb4-deepfake-detection). The dataset consists of **110,694 frames extracted from 480 videos**, containing both authentic and deepfake samples.
